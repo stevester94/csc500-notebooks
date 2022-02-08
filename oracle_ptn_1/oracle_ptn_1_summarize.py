@@ -4,13 +4,15 @@ import json
 import matplotlib.pyplot as plt
 
 from steves_utils.ptn_do_report import (
-    show_jig_diagram,
+    get_jig_diagram,
     get_results_table,
     get_parameters_table,
     get_domain_accuracies,
 )
 
-with open("oracle_ptn_1.ipynb", "r") as f:
+PATH = "/mnt/wd500GB/CSC500/csc500-main/csc500-notebooks/templates/oracle_ptn_template.ipynb"
+
+with open(PATH, "r") as f:
     j = json.load(f)
 
 for cell in j["cells"]:
@@ -25,7 +27,7 @@ experiment_json = eval(cell["outputs"][0]["data"]["text/plain"][0])
 experiment = json.loads(experiment_json)
 print(experiment)
 
-show_jig_diagram(experiment)
+get_jig_diagram(experiment)
 plt.show()
 get_results_table(experiment)
 plt.show()

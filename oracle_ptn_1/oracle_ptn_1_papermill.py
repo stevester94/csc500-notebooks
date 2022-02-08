@@ -16,9 +16,11 @@ from steves_utils.ORACLE.utils_v2 import (
 # papermill parameters
 ###########################################
 EXPERIMENTS_PATH = "./experiments"
-RESULTS_DIR_NAME = "results"
 NOTEBOOK_OUT_NAME = "experiment.ipynb"
 NOTEBOOK_TEMPLATE_PATH = os.path.realpath("../templates/oracle_ptn_template.ipynb")
+BEST_MODEL_PATH = "./best_model.pth"
+SAVE_BEST_MODEL = False
+
 
 ###########################################
 # Build all experiment json parameters
@@ -84,7 +86,7 @@ base_parameters["x_net"] =     [
 # Parameters relevant to results
 # These parameters will basically never need to change
 base_parameters["NUM_LOGS_PER_EPOCH"] = 10
-base_parameters["BEST_MODEL_PATH"] = "./best_model.pth"
+base_parameters["BEST_MODEL_PATH"] = BEST_MODEL_PATH
 
 
 parameters = base_parameters
@@ -160,3 +162,6 @@ for i, experiment_json in enumerate(experiment_jsons[:2]):
         NOTEBOOK_OUT_NAME,
         parameters = {"parameters": json.loads(experiment_json)}
     )
+
+    if not SAVE_BEST_MODEL:
+        os.remove(BEST_MODEL_PATH)
