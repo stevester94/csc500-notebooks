@@ -11,16 +11,16 @@ from steves_utils.ORACLE.utils_v2 import (
     ALL_RUNS,
     serial_number_to_id
 )
+from steves_utils.papermill_support import run_experiments_with_papermill
 
 ###########################################
 # papermill parameters
 ###########################################
 EXPERIMENTS_PATH = "./experiments"
 NOTEBOOK_OUT_NAME = "experiment.ipynb"
-NOTEBOOK_TEMPLATE_PATH = os.path.realpath("../templates/oracle_ptn_template.ipynb")
-BEST_MODEL_PATH = "./best_model.pth"
-SAVE_BEST_MODEL = False
-
+NOTEBOOK_TEMPLATE_PATH = os.path.realpath("../templates/ptn_template.ipynb")
+BEST_MODEL_PATH = "./best_model.pth" # Set to None to not save
+SAVE_BEST_MODEL=False
 
 ###########################################
 # Build all experiment json parameters
@@ -95,7 +95,7 @@ parameters = base_parameters
 custom_parameters = {}
 custom_parameters["seed"] = [1337, 1984, 2020, 18081994, 4321326]
 
-experiment_jsons = []
+experiments = []
 import copy
 import itertools
 keys, values = zip(*custom_parameters.items())
@@ -124,44 +124,21 @@ for source_domains, target_domains in [
         parameters["source_domains"] = source_domains
         parameters["target_domains"] = target_domains
         
-        j = json.dumps(parameters, indent=2)
-        experiment_jsons.append(j)
+        experiments.append(parameters)
 
 import random
 random.seed(1337)
-random.shuffle(experiment_jsons)
+random.shuffle(experiments)
 
 ###########################################
 # Run each experiment using papermill
 ###########################################
 
-"""
-Slightly confusing. We change directory to each experiment dir when 
-running since papermill uses the cwd, not where the notebook being executed lives.
-We save the original cwd of the script so we can cd back up before cd'ing into the next
-experiment.
-
-It's basically pushd and popd
-"""
-script_original_cwd = os.getcwd()
-
-os.mkdir(EXPERIMENTS_PATH)
-
-for i, experiment_json in enumerate(experiment_jsons[:2]):
-    os.chdir(script_original_cwd)
-    experiment_path = os.path.join(
-        EXPERIMENTS_PATH,
-        f"{i+1}"
-    )
-    os.mkdir(experiment_path)
-
-    os.chdir(experiment_path)
-
-    papermill.execute_notebook(
-        NOTEBOOK_TEMPLATE_PATH,
-        NOTEBOOK_OUT_NAME,
-        parameters = {"parameters": json.loads(experiment_json)}
-    )
-
-    if not SAVE_BEST_MODEL:
-        os.remove(BEST_MODEL_PATH)
+run_experiments_with_papermill(
+    experiments=experiments,
+    experiments_dir_path=EXPERIMENTS_PATH,
+    notebook_out_name=NOTEBOOK_OUT_NAME,
+    notebook_template_path=NOTEBOOK_TEMPLATE_PATH,
+    best_model_path=BEST_MODEL_PATH,
+    save_best_model=False
+)
