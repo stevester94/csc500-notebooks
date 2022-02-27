@@ -11,14 +11,14 @@ from steves_utils.ORACLE.utils_v2 import (
     ALL_RUNS,
     serial_number_to_id
 )
-from steves_utils.papermill_support import run_experiments_with_papermill
+from steves_utils.papermill_support import run_trials_with_papermill
 
 ###########################################
 # papermill parameters
 ###########################################
-EXPERIMENTS_PATH = "./experiments"
-NOTEBOOK_OUT_NAME = "experiment.ipynb"
-NOTEBOOK_TEMPLATE_PATH = os.path.realpath("../templates/ptn_template.ipynb")
+TRIALS_PATH = "./trials"
+NOTEBOOK_OUT_NAME = "trial.ipynb"
+NOTEBOOK_TEMPLATE_PATH = os.path.realpath("../../templates/ptn_template.ipynb")
 BEST_MODEL_PATH = "./best_model.pth" # Set to None to not save
 SAVE_BEST_MODEL=False
 
@@ -31,8 +31,10 @@ base_parameters["lr"] = 0.0001
 base_parameters["device"] = "cuda"
 
 base_parameters["seed"] = 1337
-base_parameters["desired_classes_source"] = ALL_SERIAL_NUMBERS
-base_parameters["desired_classes_target"] = ALL_SERIAL_NUMBERS
+base_parameters["dataset_seed"] = 1337
+
+base_parameters["labels_source"] = ALL_SERIAL_NUMBERS
+base_parameters["labels_target"] = ALL_SERIAL_NUMBERS
 
 # base_parameters["source_domains"] = [38,]
 # base_parameters["target_domains"] = [20,44,
@@ -46,23 +48,27 @@ base_parameters["desired_classes_target"] = ALL_SERIAL_NUMBERS
 #     62
 # ]
 
-base_parameters["num_examples_per_class_per_domain_source"]=100
-base_parameters["num_examples_per_class_per_domain_target"]=100
+base_parameters["x_transforms_source"]       = ["unit_power"]
+base_parameters["x_transforms_target"]       = ["unit_power"]
+base_parameters["episode_transforms_source"] = []
+base_parameters["episode_transforms_target"] = []
+
+base_parameters["num_examples_per_domain_per_label_source"]=100
+base_parameters["num_examples_per_domain_per_label_target"]=100
 
 base_parameters["n_shot"] = 3
-base_parameters["n_way"]  = len(base_parameters["desired_classes_source"])
+base_parameters["n_way"]  = len(base_parameters["labels_source"])
 base_parameters["n_query"]  = 2
 base_parameters["train_k_factor"] = 1
 base_parameters["val_k_factor"] = 2
 base_parameters["test_k_factor"] = 2
 
+base_parameters["torch_default_dtype"] = "torch.float32" 
 
 base_parameters["n_epoch"] = 3
 
 base_parameters["patience"] = 10
 base_parameters["criteria_for_best"] = "source"
-base_parameters["normalize_source"] = False
-base_parameters["normalize_target"] = False
 
 
 base_parameters["x_net"] =     [
@@ -88,6 +94,7 @@ base_parameters["x_net"] =     [
 base_parameters["NUM_LOGS_PER_EPOCH"] = 10
 base_parameters["BEST_MODEL_PATH"] = BEST_MODEL_PATH
 
+base_parameters["pickle_name"] = BEST_MODEL_PATH
 
 parameters = base_parameters
 
@@ -95,14 +102,14 @@ parameters = base_parameters
 custom_parameters = {}
 custom_parameters["seed"] = [1337, 1984, 2020, 18081994, 4321326]
 
-experiments = []
+trials = []
 import copy
 import itertools
 keys, values = zip(*custom_parameters.items())
 permutations_dicts = [dict(zip(keys, v)) for v in itertools.product(*values)]
 
 #([], [2,8,14,20,26,32,38,44,50,56,62]),
-for source_domains, target_domains in [
+for domains_source, domains_target in [
     ([2], [8,14,20,26,32,38,44,50,56,62]),
     #([8], [2,14,20,26,32,38,44,50,56,62]),
     ([14], [2,8,20,26,32,38,44,50,56,62]),
@@ -121,22 +128,22 @@ for source_domains, target_domains in [
         for key,val in d.items():
             parameters[key] = val
 
-        parameters["source_domains"] = source_domains
-        parameters["target_domains"] = target_domains
+        parameters["domains_source"] = domains_source
+        parameters["domains_target"] = domains_target
         
-        experiments.append(parameters)
+        trials.append(parameters)
 
 import random
 random.seed(1337)
-random.shuffle(experiments)
+random.shuffle(trials)
 
 ###########################################
 # Run each experiment using papermill
 ###########################################
 
-run_experiments_with_papermill(
-    experiments=experiments,
-    experiments_dir_path=EXPERIMENTS_PATH,
+run_trials_with_papermill(
+    trials=trials,
+    trials_dir_path=TRIALS_PATH,
     notebook_out_name=NOTEBOOK_OUT_NAME,
     notebook_template_path=NOTEBOOK_TEMPLATE_PATH,
     best_model_path=BEST_MODEL_PATH,
