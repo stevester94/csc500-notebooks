@@ -96,10 +96,10 @@ import itertools
 keys, values = zip(*custom_parameters.items())
 permutations_dicts = [dict(zip(keys, v)) for v in itertools.product(*values)]
 
-# ([], [1,2,3,4,5]),
+# ([], [1,2,3,4]),
 for i in range(repetitions):
     for domains_source, domains_target in [
-        ([3], [1,2,4,5]),
+        ([3], [1,2,4]),
     ]:
         for d in permutations_dicts:
             parameters = copy.deepcopy(base_parameters)
