@@ -28,7 +28,7 @@ SAVE_BEST_MODEL=False
 base_parameters = {}
 base_parameters["experiment_name"] = "oracle_ptn_1"
 base_parameters["lr"] = 0.0001
-base_parameters["device"] = "cpu"
+base_parameters["device"] = "cuda"
 
 base_parameters["seed"] = 1337
 base_parameters["dataset_seed"] = 1337
@@ -101,7 +101,7 @@ parameters = base_parameters
 
 # These will get permuted so we cover every possible case
 custom_parameters = {}
-custom_parameters["seed"] = [1337, 1984]
+custom_parameters["seed"] = [1337]
 
 trials = []
 import copy
@@ -111,6 +111,7 @@ permutations_dicts = [dict(zip(keys, v)) for v in itertools.product(*values)]
 
 #([], [2,8,14,20,26,32,38,44,50,56,62]),
 for domains_source, domains_target in [
+    ([8], [14,20,26,32,38,44,50,56]),
     ([8], [14,20,26,32,38,44,50,56]),
     #([8], [2,14,20,26,32,38,44,50,56,62]),
     # ([14], [2,8,20,26,32,38,44,50,56,62]),
