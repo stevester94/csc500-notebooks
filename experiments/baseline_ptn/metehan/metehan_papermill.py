@@ -82,7 +82,7 @@ parameters = base_parameters
 custom_parameters = {}
 custom_parameters["seed"] = [1337]
 
-repetitions = 5
+repetitions = 3
 
 trials = []
 import copy
