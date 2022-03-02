@@ -30,8 +30,8 @@ base_parameters["device"] = "cuda"
 base_parameters["seed"] = 1337
 base_parameters["dataset_seed"] = 1337
 
-base_parameters["labels_source"] = ALL_NODES_MINIMUM_1000_EXAMPLES
-base_parameters["labels_target"] = ALL_NODES_MINIMUM_1000_EXAMPLES
+base_parameters["labels_source"] = ALL_NODES_MINIMUM_100_EXAMPLES
+base_parameters["labels_target"] = ALL_NODES_MINIMUM_100_EXAMPLES
 
 
 base_parameters["x_transforms_source"]       = []
@@ -39,8 +39,8 @@ base_parameters["x_transforms_target"]       = []
 base_parameters["episode_transforms_source"] = []
 base_parameters["episode_transforms_target"] = []
 
-base_parameters["num_examples_per_domain_per_label_source"]=1000
-base_parameters["num_examples_per_domain_per_label_target"]=1000
+base_parameters["num_examples_per_domain_per_label_source"]=100
+base_parameters["num_examples_per_domain_per_label_target"]=100
 
 base_parameters["n_shot"] = 3
 base_parameters["n_way"]  = len(base_parameters["labels_source"])

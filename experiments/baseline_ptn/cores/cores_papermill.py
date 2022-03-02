@@ -79,7 +79,7 @@ base_parameters["x_net"] =     [
 base_parameters["NUM_LOGS_PER_EPOCH"] = 10
 base_parameters["BEST_MODEL_PATH"] = BEST_MODEL_PATH
 
-base_parameters["pickle_name"] = "oracle.Run1_10kExamples_stratified_ds.2022A.pkl"
+base_parameters["pickle_name"] = "cores.stratified_ds.2022A.pkl"
 
 parameters = base_parameters
 
