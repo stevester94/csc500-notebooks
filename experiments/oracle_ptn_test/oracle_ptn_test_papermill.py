@@ -69,7 +69,7 @@ base_parameters["torch_default_dtype"] = "torch.float32"
 base_parameters["n_epoch"] = 3
 
 base_parameters["patience"] = 10
-base_parameters["criteria_for_best"] = "source"
+base_parameters["criteria_for_best"] = "source_loss"
 
 
 base_parameters["x_net"] =     [
