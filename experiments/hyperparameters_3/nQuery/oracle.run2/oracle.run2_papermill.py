@@ -26,7 +26,7 @@ base_parameters = {}
 base_parameters["experiment_name"] = "nQuery_oracle.run2"
 base_parameters["device"] = "cuda"
 
-base_parameters["lr"] = 0.0001
+base_parameters["lr"] = 0.001
 base_parameters["seed"] = 1337
 base_parameters["dataset_seed"] = 1337
 
