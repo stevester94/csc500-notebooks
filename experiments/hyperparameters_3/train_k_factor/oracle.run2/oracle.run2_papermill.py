@@ -23,7 +23,7 @@ SAVE_BEST_MODEL=False
 # Build all experiment json parameters
 ###########################################
 base_parameters = {}
-base_parameters["experiment_name"] = "nShot_oracle.run2"
+base_parameters["experiment_name"] = "trainKFactor_oracle.run2"
 base_parameters["device"] = "cuda"
 
 base_parameters["lr"] = 0.001
@@ -42,10 +42,10 @@ base_parameters["episode_transforms_target"] = []
 base_parameters["num_examples_per_domain_per_label_source"]=1000
 base_parameters["num_examples_per_domain_per_label_target"]=1000
 
-# base_parameters["n_shot"] = 3
+base_parameters["n_shot"] = 3
 base_parameters["n_way"]  = len(base_parameters["labels_source"])
 base_parameters["n_query"]  = 2
-base_parameters["train_k_factor"] = 1
+# base_parameters["train_k_factor"] = 1
 base_parameters["val_k_factor"] = 2
 base_parameters["test_k_factor"] = 2
 
@@ -86,7 +86,7 @@ parameters = base_parameters
 
 # These will get permuted so we cover every possible case
 custom_parameters = {}
-custom_parameters["n_shot"] = [1,2,3,4,5,10]
+custom_parameters["train_k_factor"] = [1,2,3,4,5]
 
 trials = []
 import copy
