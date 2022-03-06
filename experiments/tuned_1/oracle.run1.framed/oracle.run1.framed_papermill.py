@@ -39,8 +39,8 @@ base_parameters["episode_transforms_target"] = []
 base_parameters["domains_source"] = [8,32,50]
 base_parameters["domains_target"] = [14,20,26,38,44,]
 
-base_parameters["num_examples_per_domain_per_label_source"]=1300
-base_parameters["num_examples_per_domain_per_label_target"]=1300
+base_parameters["num_examples_per_domain_per_label_source"]=2000
+base_parameters["num_examples_per_domain_per_label_target"]=2000
 
 base_parameters["n_shot"] = 3
 base_parameters["n_way"]  = len(base_parameters["labels_source"])
@@ -80,7 +80,7 @@ base_parameters["x_net"] =     [
 base_parameters["NUM_LOGS_PER_EPOCH"] = 10
 base_parameters["BEST_MODEL_PATH"] = BEST_MODEL_PATH
 
-base_parameters["pickle_name"] = "oracle.Run1_framed_1300Examples_stratified_ds.2022A.pkl"
+base_parameters["pickle_name"] = "oracle.Run1_framed_2000Examples_stratified_ds.2022A.pkl"
 
 parameters = base_parameters
 
