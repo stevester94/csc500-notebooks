@@ -33,11 +33,11 @@ base_parameters["x_transforms_target"]       = []
 base_parameters["episode_transforms_source"] = []
 base_parameters["episode_transforms_target"] = []
 
-base_parameters["domains_source"] = [0,]
-base_parameters["domains_target"] = [1,2]
+base_parameters["domains_source"] = [1]
+base_parameters["domains_target"] = [0,2]
 
-base_parameters["num_examples_per_domain_per_label_source"]=200
-base_parameters["num_examples_per_domain_per_label_target"]=200
+base_parameters["num_examples_per_domain_per_label_source"]=100
+base_parameters["num_examples_per_domain_per_label_target"]=100
 
 base_parameters["n_shot"] = 3
 base_parameters["n_way"]  = len(base_parameters["labels_source"])

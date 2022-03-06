@@ -20,7 +20,7 @@ SAVE_BEST_MODEL=False
 # Build all experiment json parameters
 ###########################################
 base_parameters = {}
-base_parameters["experiment_name"] = "tuned_1_oracle.run2.framed"
+base_parameters["experiment_name"] = "tuned_1_oracle.run2_limited"
 base_parameters["device"] = "cuda"
 
 base_parameters["lr"] = 0.001
@@ -40,7 +40,7 @@ base_parameters["domains_source"] = [8,32,50]
 base_parameters["domains_target"] = [14,20,26,38,44,]
 
 base_parameters["num_examples_per_domain_per_label_source"]=2000
-base_parameters["num_examples_per_domain_per_label_target"]=2000
+base_parameters["num_examples_per_domain_per_label_target"]=1000
 
 base_parameters["n_shot"] = 3
 base_parameters["n_way"]  = len(base_parameters["labels_source"])
@@ -80,7 +80,7 @@ base_parameters["x_net"] =     [
 base_parameters["NUM_LOGS_PER_EPOCH"] = 10
 base_parameters["BEST_MODEL_PATH"] = BEST_MODEL_PATH
 
-base_parameters["pickle_name"] = "oracle.Run2_framed_2000Examples_stratified_ds.2022A.pkl"
+base_parameters["pickle_name"] = "oracle.Run2_10kExamples_stratified_ds.2022A.pkl"
 
 parameters = base_parameters
 
