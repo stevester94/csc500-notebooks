@@ -100,16 +100,32 @@ B_datasets = [
 
 base_parameters["n_way"]  = min(len(wisig.ALL_NODES_MINIMUM_100_EXAMPLES), 19)
 
-A_to_B = []
-B_to_A = []
+custom_parameters = []
 
+# I am far too burned out to find a pythonic way of doing this
 for transform in [["unit_power"], ["unit_mag"], []]:
+    A_to_B = []
     for a_orig in A_datasets:
         a = copy.deepcopy(a_orig)
         a["source_or_target_dataset"] = "source"
         a["x_transforms"] = transform
         A_to_B.append(a)
 
+    for b_orig in B_datasets:
+        b = copy.deepcopy(b_orig)
+        b["source_or_target_dataset"] = "target"
+        b["x_transforms"] = transform
+        A_to_B.append(b)
+    
+    custom_parameters.append(
+        {
+            "datasets": A_to_B
+        }
+    )
+
+for transform in [["unit_power"], ["unit_mag"], []]:
+    B_to_A = []
+    for a_orig in A_datasets:
         a = copy.deepcopy(a_orig)
         a["source_or_target_dataset"] = "target"
         a["x_transforms"] = transform
@@ -117,25 +133,15 @@ for transform in [["unit_power"], ["unit_mag"], []]:
 
     for b_orig in B_datasets:
         b = copy.deepcopy(b_orig)
-        b["source_or_target_dataset"] = "target"
-        b["x_transforms"] = transform
-        A_to_B.append(b)
-
-        b = copy.deepcopy(b_orig)
         b["source_or_target_dataset"] = "source"
         b["x_transforms"] = transform
         B_to_A.append(b)
-
-custom_parameters = []
-custom_parameters.extend([
-    {
-        "datasets":A_to_B,
-
-    },
-    {
-        "datasets":B_to_A
-    }
-])
+    
+    custom_parameters.append(
+        {
+            "datasets": B_to_A
+        }
+    )
 
 trials = []
 
