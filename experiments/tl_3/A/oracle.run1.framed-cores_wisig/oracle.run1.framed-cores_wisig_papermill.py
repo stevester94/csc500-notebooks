@@ -34,7 +34,7 @@ SAVE_BEST_MODEL=False
 # Build all experiment json parameters
 ###########################################
 base_parameters = {}
-base_parameters["experiment_name"] = "tl_3:oracle.run1.framed -> cores+wisig"
+base_parameters["experiment_name"] = "tl_3A:oracle.run1.framed -> cores+wisig"
 base_parameters["device"] = "cuda"
 
 base_parameters["lr"] = 0.001
@@ -57,7 +57,7 @@ base_parameters["criteria_for_best"] = "target_loss"
 
 
 base_parameters["x_net"] =     [
-    {"class": "nnReshape", "kargs": {"shape":[-1, 1, 2, 256]}},
+    {"class": "nnReshape", "kargs": {"shape":[-1, 1, 2, 200]}},
     {"class": "Conv2d", "kargs": { "in_channels":1, "out_channels":256, "kernel_size":[1,7], "bias":False, "padding":[0,3], },},
     {"class": "ReLU", "kargs": {"inplace": True}},
     {"class": "BatchNorm2d", "kargs": {"num_features":256}},
@@ -67,7 +67,7 @@ base_parameters["x_net"] =     [
     {"class": "BatchNorm2d", "kargs": {"num_features":80}},
     {"class": "Flatten", "kargs": {}},
 
-    {"class": "Linear", "kargs": {"in_features": 80*256, "out_features": 256}}, # 80 units per IQ pair
+    {"class": "Linear", "kargs": {"in_features": 80*200, "out_features": 256}}, # 80 units per IQ pair
     {"class": "ReLU", "kargs": {"inplace": True}},
     {"class": "BatchNorm1d", "kargs": {"num_features":256}},
 
