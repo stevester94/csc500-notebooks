@@ -26,7 +26,7 @@ from steves_utils.papermill_support import run_trials_with_papermill
 ###########################################
 TRIALS_PATH = "./trials"
 NOTEBOOK_OUT_NAME = "trial.ipynb"
-NOTEBOOK_TEMPLATE_PATH = os.path.realpath("../../../../templates/tl_ptn_template.ipynb")
+NOTEBOOK_TEMPLATE_PATH = os.path.realpath("../../../templates/tl_ptn_template.ipynb")
 BEST_MODEL_PATH = "./best_model.pth"
 SAVE_BEST_MODEL=False
 
