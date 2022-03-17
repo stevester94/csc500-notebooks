@@ -41,6 +41,7 @@ base_parameters["lr"] = 0.001
 base_parameters["seed"] = 1337
 base_parameters["dataset_seed"] = 1337
 
+base_parameters["x_shape"] = [2,200]
 
 base_parameters["n_shot"] = 3
 base_parameters["n_query"]  = 2
