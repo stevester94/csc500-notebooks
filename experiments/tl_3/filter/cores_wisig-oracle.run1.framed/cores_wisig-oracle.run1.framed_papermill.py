@@ -134,13 +134,13 @@ for transform in ["unit_power", "unit_mag", None]:
     A_to_B = []
     for a_orig in A_datasets:
         a = copy.deepcopy(a_orig)
-        a["source_or_target_dataset"] = "target"
+        a["source_or_target_dataset"] = "source"
         if transform != None: a["x_transforms"].insert(0, transform)
         A_to_B.append(a)
 
     for b_orig in B_datasets:
         b = copy.deepcopy(b_orig)
-        b["source_or_target_dataset"] = "source"
+        b["source_or_target_dataset"] = "target"
         if transform != None: b["x_transforms"].insert(0, transform)
         A_to_B.append(b)
     
