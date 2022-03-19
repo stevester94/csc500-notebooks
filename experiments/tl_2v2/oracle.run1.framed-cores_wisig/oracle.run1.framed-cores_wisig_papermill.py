@@ -34,13 +34,10 @@ SAVE_BEST_MODEL=False
 # Build all experiment json parameters
 ###########################################
 base_parameters = {}
-base_parameters["experiment_name"] = "oracle.run1.framed -> cores+wisig"
+base_parameters["experiment_name"] = "tl_2v2:oracle.run1.framed -> cores+wisig"
 base_parameters["device"] = "cuda"
 
-base_parameters["lr"] = 0.001
-base_parameters["seed"] = 1337
-base_parameters["dataset_seed"] = 1337
-
+base_parameters["lr"] = 0.0001
 
 base_parameters["n_shot"] = 3
 base_parameters["n_query"]  = 2
@@ -53,7 +50,7 @@ base_parameters["torch_default_dtype"] = "torch.float32"
 base_parameters["n_epoch"] = 50
 
 base_parameters["patience"] = 3
-base_parameters["criteria_for_best"] = "target_loss"
+base_parameters["criteria_for_best"] = "target_accuracy"
 
 
 base_parameters["x_net"] =     [
@@ -87,22 +84,22 @@ A_datasets = [
     {
         "labels": ALL_NODES,
         "domains": ALL_DAYS,
-        "num_examples_per_domain_per_label": 100,
+        "num_examples_per_domain_per_label": -1,
         "pickle_path": os.path.join(get_datasets_base_path(), "cores.stratified_ds.2022A.pkl"),
         "source_or_target_dataset": None, # Fill in later
         "x_transforms": [],
         "episode_transforms": [],
-        "domain_prefix": "C_A_"
+        "domain_prefix": "C_"
     },
     {
         "labels": wisig.ALL_NODES_MINIMUM_100_EXAMPLES,
         "domains": wisig.ALL_DAYS,
-        "num_examples_per_domain_per_label": 100,
+        "num_examples_per_domain_per_label": -1,
         "pickle_path": os.path.join(get_datasets_base_path(), "wisig.node3-19.stratified_ds.2022A.pkl"),
         "source_or_target_dataset": None, # Fill in later
         "x_transforms": [],
         "episode_transforms": [],
-        "domain_prefix": "W_A_"
+        "domain_prefix": "W_"
     }
 ]
 
@@ -115,7 +112,7 @@ B_datasets = [
         "source_or_target_dataset": None, # Fill in later
         "x_transforms": [],
         "episode_transforms": [],
-        "domain_prefix": "ORACLE.run1_"
+        "domain_prefix": "O_"
     }
 ]
 
@@ -129,25 +126,28 @@ base_parameters["n_way"]  = min(
 custom_parameters = []
 
 # I am far too burned out to find a pythonic way of doing this
-for transform in [["unit_power"], ["unit_mag"], []]:
-    A_to_B = []
-    for a_orig in A_datasets:
-        a = copy.deepcopy(a_orig)
-        a["source_or_target_dataset"] = "target"
-        a["x_transforms"] = transform
-        A_to_B.append(a)
+for seed in [1337, 420, 154325, 7, 500]:
+    for transform in [["unit_power"], ["unit_mag"], []]:
+        A_to_B = []
+        for a_orig in A_datasets:
+            a = copy.deepcopy(a_orig)
+            a["source_or_target_dataset"] = "target"
+            a["x_transforms"] = transform
+            A_to_B.append(a)
 
-    for b_orig in B_datasets:
-        b = copy.deepcopy(b_orig)
-        b["source_or_target_dataset"] = "source"
-        b["x_transforms"] = transform
-        A_to_B.append(b)
-    
-    custom_parameters.append(
-        {
-            "datasets": A_to_B
-        }
-    )
+        for b_orig in B_datasets:
+            b = copy.deepcopy(b_orig)
+            b["source_or_target_dataset"] = "source"
+            b["x_transforms"] = transform
+            A_to_B.append(b)
+        
+        custom_parameters.append(
+            {
+                "datasets": A_to_B,
+                "seed": seed,
+                "dataset_seed":  seed,
+            }
+        )
 
 
 trials = []
