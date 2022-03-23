@@ -25,7 +25,7 @@ SAVE_BEST_MODEL=False
 # Build all experiment json parameters
 ###########################################
 base_parameters = {}
-base_parameters["experiment_name"] = "cnn_1:wisig"
+base_parameters["experiment_name"] = "cnn_2:wisig"
 base_parameters["labels"] = ALL_NODES_MINIMUM_100_EXAMPLES
 base_parameters["domains_source"] = [1,2,3,4]
 base_parameters["domains_target"] = [1,2,3,4]

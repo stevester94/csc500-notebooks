@@ -21,7 +21,7 @@ SAVE_BEST_MODEL=False
 # Build all experiment json parameters
 ###########################################
 base_parameters = {}
-base_parameters["experiment_name"] = "cnn_1:oracle.run2"
+base_parameters["experiment_name"] = "cnn_2:oracle.run2"
 base_parameters["labels"] = ALL_SERIAL_NUMBERS
 base_parameters["domains_source"] = [8,32,50,14,20,26,38,44,]
 base_parameters["domains_target"] = [8,32,50,14,20,26,38,44,]

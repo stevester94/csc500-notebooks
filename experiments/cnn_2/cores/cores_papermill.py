@@ -23,7 +23,7 @@ SAVE_BEST_MODEL=False
 # Build all experiment json parameters
 ###########################################
 base_parameters = {}
-base_parameters["experiment_name"] = "cnn_1:cores"
+base_parameters["experiment_name"] = "cnn_2:cores"
 base_parameters["device"] = "cuda"
 
 base_parameters["lr"] = 0.0001
