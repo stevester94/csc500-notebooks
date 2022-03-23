@@ -40,8 +40,8 @@ base_parameters["batch_size"] = 128
 base_parameters["normalize_source"] = False
 base_parameters["normalize_target"] = False
 
-base_parameters["num_examples_per_domain_per_label_source"]=-1
-base_parameters["num_examples_per_domain_per_label_target"]=-1
+base_parameters["num_examples_per_domain_per_label_source"]=2000
+base_parameters["num_examples_per_domain_per_label_target"]=2000
 
 base_parameters["torch_default_dtype"] = "torch.float32" 
 

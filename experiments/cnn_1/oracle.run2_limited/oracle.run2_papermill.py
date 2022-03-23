@@ -22,7 +22,7 @@ SAVE_BEST_MODEL=False
 ###########################################
 base_parameters = {}
 base_parameters["experiment_name"] = "cnn_1:oracle.run2_limited"
-base_parameters["labels_source"] = ALL_SERIAL_NUMBERS
+base_parameters["labels"] = ALL_SERIAL_NUMBERS
 base_parameters["domains_source"] = [8,32,50]
 base_parameters["domains_target"] = [14,20,26,38,44,]
 base_parameters["pickle_name_source"] = "oracle.Run2_10kExamples_stratified_ds.2022A.pkl"
@@ -40,8 +40,8 @@ base_parameters["batch_size"] = 128
 base_parameters["normalize_source"] = False
 base_parameters["normalize_target"] = False
 
-base_parameters["num_examples_per_domain_per_label_source"]=-1
-base_parameters["num_examples_per_domain_per_label_target"]=-1
+base_parameters["num_examples_per_domain_per_label_source"]=2000
+base_parameters["num_examples_per_domain_per_label_target"]=2000
 
 base_parameters["torch_default_dtype"] = "torch.float32" 
 
