@@ -2,6 +2,7 @@ import pandas as pd
 import os
 from pexpect import ExceptionPexpect
 import seaborn as sb
+import sys
 
 from steves_utils.summary_utils import (
     get_experiments_from_path
@@ -125,7 +126,9 @@ class tl_3_Helper:
         def datasets_to_columns(datasets):
             # The name<->transforms mapping gets ugly when we have more than 2 datasets
             # to make my life easier, we'll clamp this to 2 datasets for now
-            assert len(datasets) == 2
+            if len(datasets) != 2:
+                print(datasets, file=sys.stderr)
+                raise Exception("Too many datasets")
 
             name_source = None
             name_target = None
