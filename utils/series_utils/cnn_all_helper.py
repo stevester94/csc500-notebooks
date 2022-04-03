@@ -10,11 +10,11 @@ from steves_utils.utils_v2 import (
     get_experiments_base_path
 )
 
-class tuned_1v2_Helper:
-    def __init__(self, series_path = os.path.join(get_experiments_base_path(), "tuned_1v2")):
-        self.independent_vars = ["Dataset", "x_transform"]
-        self.series_path = series_path
-        self.series_name = "tuned_1v2"
+class cnn_All_Helper:
+    def __init__(self, which_cnn:int):
+        self.series_name = "cnn_"+str(which_cnn)
+        self.series_path = os.path.join(get_experiments_base_path(), "cnn_"+str(which_cnn))
+        self.independent_vars = ["Source Dataset", "Target Dataset"]
 
 
     def get_all_trials(self):
@@ -55,32 +55,36 @@ class tuned_1v2_Helper:
             "oracle.Run2_framed_2000Examples_stratified_ds.2022A.pkl": "oracle.run2.framed",
             "wisig.node3-19.stratified_ds.2022A.pkl": "wisig",
         }
-        def row_to_columns(row):            
-            ds_name = pickle_name_mapping[row["pickle_name"]]
-            
-            if ds_name in ["oracle.run1", "oracle.run2"]:
-                if row["num_examples_per_domain_per_label_source"] not in [-1, 10000]:
-                    assert row["num_examples_per_domain_per_label_source"] == 2000
-                    ds_name = ds_name+".limited"
+        def row_to_columns(row):
+            def _ds_name(ds):
+                ds_name = pickle_name_mapping[ds]
+                
+                if ds_name in ["oracle.run1", "oracle.run2"]:
+                    if row["num_examples_per_domain_per_label_source"] not in [-1, 10000]:
+                        assert row["num_examples_per_domain_per_label_source"] == 2000
+                        ds_name = ds_name+".limited"
+                return ds_name
 
-            transforms = row["x_transforms_source"]
-            assert len(transforms) == 1 or len(transforms) == 0
+            ds_name_source = _ds_name(row["pickle_name_source"])
+            ds_name_target = _ds_name(row["pickle_name_target"])
 
-            if len(transforms) == 0:
-                transforms = "None"
-            else:
-                transforms = str(transforms[0])
-
-            return ds_name, transforms
+            return ds_name_source, ds_name_target
 
 
-        p[["Dataset", "x_transform"]] = [row_to_columns(r) for i,r in p.iterrows()]
+        p[["Source Dataset", "Target Dataset"]] = [row_to_columns(r) for i,r in p.iterrows()]
+
+        # I screwed up CNN trials, and did 3 for each seec*dataset_seed
+        # So just take the first one from each group, they're all equivalent
+        p = p.groupby(self.independent_vars+["seed", "dataset_seed"]).nth(0)
 
         # p = p.set_index(self.independent_vars+["seed", "dataset_seed"])
         # import sys
-        # for row in p:
-        #     return p
-        #     sys.exit(1)
+        # for row in p.iterrows():
+        #     # print(row)
+        #     if len(row[1]) > 1:
+        #         return row[0]
+        # print("reee")
+        # sys.exit(1)
 
         for i, size in p.groupby(self.independent_vars+["seed", "dataset_seed"]).size().iteritems():
             if not size == 1:
